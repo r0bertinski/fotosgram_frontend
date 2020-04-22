@@ -6,7 +6,7 @@ import { UserService } from '../services/user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UserGuard implements CanActivate, CanLoad {
+export class UserGuard implements CanLoad {
 
   constructor( private userService: UserService) {
 
@@ -16,8 +16,8 @@ export class UserGuard implements CanActivate, CanLoad {
     return this.userService.validateToken();
   }
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean  {
-    return false;
-  }
+  // canActivate(): Observable<boolean> | Promise<boolean> | boolean  {
+  //   return false;
+  // }
 
 }

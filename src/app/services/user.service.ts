@@ -5,6 +5,7 @@ import { environment } from '../../../src/environments/environment';
 import { User } from '../../interfaces/interfaces';
 import { promise } from 'protractor';
 import { NavController } from '@ionic/angular';
+import { resolve } from 'url';
 
 const { Storage } = Plugins;
 const URL = environment.url;
@@ -128,6 +129,29 @@ export class UserService {
     this.token = JSON.parse(token.value).value || null;
 
   }
+
+  updateUser( user: User) {
+
+    const headers = new HttpHeaders({
+      'x-token': this.token
+    });
+
+
+    return new Promise( resolve => {
+      this.http.post(`${ URL }/user/update`, user, { headers })
+      .subscribe( resp => {
+         if ( resp['ok'] ) {
+           this.storeToken( resp['token']  );
+           resolve( true );
+         } else {
+           console.log( resp );
+           resolve( false );
+       }
+      });
+
+    });
+  }
+
 }
 
 
