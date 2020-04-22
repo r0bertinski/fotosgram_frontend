@@ -16,7 +16,7 @@ const URL = environment.url;
 export class UserService {
 
   token: string = null;
-  user: User = {};
+  private user: User = {};
 
   constructor( private http: HttpClient,
                private navCtrl: NavController ) { }
@@ -40,6 +40,15 @@ export class UserService {
       });
     });
   
+  }
+
+  getUser() {
+
+    if ( !this.user._id ) {
+      this.validateToken();
+    }
+    console.log( 'user before', this.user );
+    return { ...this.user};
   }
 
 
