@@ -25,7 +25,7 @@ registerUser: User = {
   // Default data
   // email: Math.random().toString(36).substring(7) + '@test.com' ,
   // name: 'papixula' + Math.random().toString(36).substring(7),
-  email: 'papixula@test.com' ,
+  email: 'testuser7@gmail.com',
   name: 'papixula',
   password: '123456',
   avatar: 'av-1.png'

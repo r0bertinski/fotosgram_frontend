@@ -24,6 +24,7 @@ export class UiServiceService {
   async updatedAlert( message: string ) {
     const toast = await this.toastCtr.create({
       message,
+      position: 'top',
       duration: 1500
     });
     toast.present();

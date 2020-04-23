@@ -20,8 +20,6 @@ export class Tab3Page implements OnInit {
 
   ngOnInit() {
     this.user = this.userService.getUser();
-
-    console.log( 'user', this.user );
   }
 
   async update( fUpdate: NgForm ) {
