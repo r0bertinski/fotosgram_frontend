@@ -15,6 +15,7 @@ import { AvatarSelectorComponent } from './avatar-selector/avatar-selector.compo
     AvatarSelectorComponent
   ],
   exports: [
+    PostComponent,
     PostsComponent,
     AvatarSelectorComponent
 

@@ -8,6 +8,7 @@ import { Post } from '../../../interfaces/interfaces';
 })
 export class PostsComponent implements OnInit {
 
+  // Inserted to this component from another one or from a PAGE ( tab1.page.html ).
   @Input() posts: Post[] = [];
   constructor() { }
 

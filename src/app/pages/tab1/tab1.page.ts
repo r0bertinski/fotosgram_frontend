@@ -15,8 +15,14 @@ export class Tab1Page implements OnInit {
 
   constructor( private postsService: PostsService) {}
 
+  // If tab1 is not initiated yet, it will load the data from the db, and subscribe to the newPost event.
   ngOnInit() {
     this.nexts();
+
+    this.postsService.newPost
+        .subscribe( post => {
+          this.posts.unshift( post );
+        })
   }
 
   reload( event ) {
