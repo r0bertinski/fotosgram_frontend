@@ -40,7 +40,7 @@ export class PostsService {
 
         if ( resp['ok'] ) {
           console.log( resp  );
-          this.newPost.emit( resp );
+          this.newPost.emit( resp['data'] );
           resolve( true );
         }
 
