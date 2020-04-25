@@ -14,9 +14,9 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: '',
+    path: '', // if a valid token does not exist, the guard will be redirect to the login page.
     pathMatch: 'full',
-    redirectTo: 'login'
+    redirectTo: 'main/tabs/tab1'
   }
 ];
 @NgModule({

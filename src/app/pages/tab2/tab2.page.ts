@@ -3,6 +3,7 @@ import { PostsService } from '../../services/posts.service';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 declare var window: any; // avoid error from typescrip
 
@@ -26,7 +27,8 @@ export class Tab2Page {
   constructor( private postSrv: PostsService,
                private route: Router,
                private geolocation: Geolocation,
-               private camera: Camera ) {}
+               private camera: Camera,
+               private imagePicker: ImagePicker ) {}
 
 
   async createPost() {
@@ -39,6 +41,8 @@ export class Tab2Page {
       position: false
     };
 
+    this.tempImages = [];
+
     this.route.navigateByUrl('/main/tabs/tab1');
   }
 
@@ -48,12 +52,11 @@ export class Tab2Page {
       this.currentPost.coords = null;
       return;
     }
-    
+
     this.loadingGeo = true;
 
 
     this.geolocation.getCurrentPosition().then((resp) => {
-      
       // resp.coords.latitude
       // resp.coords.longitude
      
@@ -82,6 +85,28 @@ export class Tab2Page {
       sourceType: this.camera.PictureSourceType.CAMERA
     };
 
+    this.processImage(options);
+
+  }
+
+  library() {
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+
+
+    this.processImage( options );
+  }
+
+  processImage( options: CameraOptions ) {
+
+
     this.camera.getPicture(options).then( ( imageData ) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
@@ -89,6 +114,7 @@ export class Tab2Page {
       const img = window.Ionic.WebView.convertFileSrc( imageData );
       console.log( img );
 
+      this.postSrv.uploadImage( imageData );
       this.tempImages.push( img );
     }, (err) => {
       // Handle error

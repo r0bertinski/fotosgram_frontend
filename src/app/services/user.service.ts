@@ -22,16 +22,16 @@ export class UserService {
   constructor( private http: HttpClient,
                private navCtrl: NavController ) { }
 
-  login( email: string, password: string) {
+   login( email: string, password: string) {
     console.log( 'email', email );
     const data = { email, password }; // same than data: data and password:password in EcmaS5
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/user/login`, data)
-      .subscribe( resp => {
+      .subscribe( async resp => {
         
         if ( resp['ok']) {
-          this.storeToken( resp['token']);
+          await this.storeToken( resp['token']);
           resolve(true);
         } else {
           this.token = null;
@@ -41,6 +41,13 @@ export class UserService {
       });
     });
   
+  }
+
+  logout() {
+    this.token = null;
+    this.user = null;
+    Storage.clear();
+    this.navCtrl.navigateRoot('/login', { animated: true });
   }
 
   getUser() {
@@ -62,17 +69,20 @@ export class UserService {
         value: token
       })
     });
+
+    // Ensure that the token is validated, the app cannot continue till this validation finish.
+    await this.validateToken();
   }
 
   register( user: User) {
 
     return new Promise( resolve => {
       this.http.post(`${ URL }/user/create`, user)
-          .subscribe( resp => {
-            console.log( resp );
+          .subscribe( async resp => {
+            console.log(  resp );
 
             if ( resp['ok']) {
-              this.storeToken( resp['token']);
+              await this.storeToken( resp['token']);
               resolve(true);
             } else {
               this.token = null;
